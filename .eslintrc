@@ -1,0 +1,92 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "extends": [
+    "airbnb",
+    "react-app",
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser",
+    "jsxPragma": "React",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "prettier",
+    "react-hooks",
+    "import"
+  ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
+      }
+    }
+  },
+  "rules": {
+    "quotes": [
+      2,
+      "single"
+    ],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
+      }
+    ],
+    "import/no-unresolved": [
+      2,
+      {
+        "ignore": [
+          "^~@",
+          "^~CONF",
+          "^~#"
+        ]
+      }
+    ],
+    "import/extensions": [
+      2,
+      {
+        "ignore": [
+          "^~@",
+          "^~CONF",
+          "^~#"
+        ]
+      }
+    ],
+    "import/no-extraneous-dependencies": "off",
+    "import/no-dynamic-require": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "react/jsx-props-no-spreading": "off",
+    "no-underscore-dangle": "off"
+  },
+  "globals": {
+    "ENVIRONMENT": "readonly",
+    "RELEASE": true,
+    "LOCALE": true,
+    "PLATFORM": true,
+    "PORT": true
+  }
+}
