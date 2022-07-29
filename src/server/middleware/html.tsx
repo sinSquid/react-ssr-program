@@ -2,6 +2,7 @@ import React from 'react';
 import serialize from 'serialize-javascript';
 
 const html = ({ assets: { js, css, link }, markup, appState, helmet }) => {
+  console.log(helmet, helmet.htmlAttributes.toComponent());
   const { lang, title, ...rest } = { ...helmet.htmlAttributes.toComponent() };
   return (
     <html lang={lang}>

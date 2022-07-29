@@ -10,7 +10,6 @@ const fetchDataBeforeRender = async ({ routes, store, url, query, onProgress }) 
   } catch (err) {
     // TODO added on 2022/7/20 19:18
   }
-   console.log(routes, branch, url);
   if (onProgress) {
     onProgress({ progress: 0 });
   }

@@ -1,41 +1,46 @@
 import React from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom';
+import { StaticRouter } from 'react-router-dom/server';
 import { Provider } from 'react-redux';
-import PT from 'prop-types';
+import { ChunkExtractor } from '@loadable/server';
+import fetchDataBeforeRender from '~@/utils/fetchDataBeforeRender';
+import createStore from '~@/stores';
+import routes from '~@/routes';
 import App from '~@/app';
 import Html from './html';
-import fetchDataBeforeRender from '../../utils/fetchDataBeforeRender';
+import { appDistAssetsLoadJson } from '../../../utils/paths';
 
-function RenderApp({ store, ctx, context, routes }) {
-  ctx.state.store = store;
-
-  return (
-    <Provider store={store}>
-      <StaticRouter location={ctx.request.url} context={context}>
-        <HelmetProvider>
-          <App />
-        </HelmetProvider>
-      </StaticRouter>
-    </Provider>
-  );
-}
-
-RenderApp.propTypes = {
-  store: PT.shape({}).isRequired,
-  ctx: PT.shape({}).isRequired,
-  context: PT.shape({}).isRequired,
-  routes: PT.array.isRequired,
+const getExtractor = () => {
+  return new ChunkExtractor({
+    statsFile: appDistAssetsLoadJson,
+    entrypoints: ['app'],
+  });
 };
 
 const ssr =
   (opt = {}) =>
   async (ctx, next) => {
-    const { getExtractor, beforeFetchData, createStore, routes } = opt;
+    const beforeFetchData = undefined;
     const context = { url: undefined };
     const store = createStore();
     const extractor = getExtractor();
+
+    const helmetContext = {};
+    const renderApp = () => {
+      ctx.state.store = store;
+
+      return (
+        <Provider store={store}>
+          <StaticRouter location={ctx.request.url}>
+            <HelmetProvider context={helmetContext}>
+              <App />
+            </HelmetProvider>
+          </StaticRouter>
+        </Provider>
+      );
+    };
+
     await next();
 
     // 在执行FetchData 之前调用
@@ -48,14 +53,15 @@ const ssr =
       store,
       url: ctx.request.path,
       query: ctx.request.query,
+      onProgress: undefined,
     });
 
-    const app = <RenderApp store={store} ctx={ctx} context={context} routes={routes} />;
+    const app = renderApp();
 
     const jsx = extractor.collectChunks(app);
 
     const markup = renderToString(jsx);
-    const helmet = HelmetProvider.renderStatic();
+    const { helmet } = helmetContext;
 
     const js = extractor.getScriptElements();
     const css = extractor.getStyleElements();
