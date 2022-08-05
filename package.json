@@ -8,7 +8,8 @@
     "lint:eslint": "eslint --cache --max-warnings 0  \"{src}/**/*.{ts,tsx,js,jsx}\" --fix",
     "lint:prettier": "prettier --write  \"src/**/*.{js,json,tsx,css,less,scss,html,md}\"",
     "lint:stylelint": "stylelint --cache --fix \"**/*.{less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
-    "lint:staged": "lint-staged"
+    "lint:staged": "lint-staged",
+    "clean": "rimraf dist/"
   },
   "repository": {
     "type": "git",

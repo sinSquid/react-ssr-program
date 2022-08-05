@@ -8,7 +8,7 @@ const webpackServerDevConfig = require('../webpack/server.dev');
 const { appDist, appServerOutputServerJs } = require('../utils/paths');
 
 const host = ip.address();
-const port = 3011;
+const port = process.env.ASSETPORT;
 
 fs.removeSync(appDist); // 整个文件夹都删掉，只清空会在某些情况下（外层通过脚本调用）报端口占用
 

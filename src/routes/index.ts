@@ -1,14 +1,14 @@
-import loadable from '@loadable/component';
+import React from 'react';
+import lazy from './lazy';
 
 const routes = [
   {
     path: '/',
-    exact: true,
-    component: loadable(() => import(/* webpackChunkName: "page-Home" */ '../pages/home')),
+    element: lazy(React.lazy(() => import(/* webpackChunkName: "page-Home" */ '../pages/home'))),
   },
   {
     path: '/demo',
-    component: loadable(() => import(/* webpackChunkName: "page-Demo" */ '../pages/demo')),
+    element: lazy(React.lazy(() => import(/* webpackChunkName: "page-Home" */ '../pages/demo'))),
   },
 ];
 

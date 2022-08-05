@@ -4,17 +4,20 @@ import { matchRoutes } from 'react-router-dom';
 const resolve = obj => (obj && obj.__esModule ? obj.default : obj);
 
 const fetchDataBeforeRender = async ({ routes, store, url, query, onProgress }) => {
-  let branch = [];
+  let branch;
   try {
     branch = matchRoutes(routes, url);
   } catch (err) {
     // TODO added on 2022/7/20 19:18
   }
+  if (!branch) {
+    return Promise.resolve(null);
+  }
   if (onProgress) {
     onProgress({ progress: 0 });
   }
   const promises = branch.map(async ({ route, match }) => {
-    let Comp = route.component;
+    let Comp = route.element;
     // loadable wrapped
     if (Comp.load) {
       Comp = resolve(await Comp.load());

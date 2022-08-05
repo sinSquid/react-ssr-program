@@ -2,7 +2,6 @@ import React from 'react';
 import serialize from 'serialize-javascript';
 
 const html = ({ assets: { js, css, link }, markup, appState, helmet }) => {
-  console.log(helmet, helmet.htmlAttributes.toComponent());
   const { lang, title, ...rest } = { ...helmet.htmlAttributes.toComponent() };
   return (
     <html lang={lang}>
@@ -12,10 +11,7 @@ const html = ({ assets: { js, css, link }, markup, appState, helmet }) => {
         <meta name="format-detection" content="telephone=no" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
         <title>{helmet.title.toComponent()}</title>
         {helmet.noscript.toComponent()}
         {helmet.base.toComponent()}
